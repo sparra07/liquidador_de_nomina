@@ -1,74 +1,46 @@
-# ==============================
-# CONSTANTES DEL SISTEMA
-# ==============================
-
 DIAS_PERIODO = 30
 HORAS_POR_DIA = 8
-PORC_SALUD = 0.04
-PORC_PENSION = 0.04
+
 RECARGO_DIURNO = 1.25
 RECARGO_NOCTURNO = 1.75
+
 PORC_INCAPACIDAD = 0.66
+PORC_SALUD = 0.04
+PORC_PENSION = 0.04
 
 
-# ==============================
-# FUNCIONES DE VALIDACIÓN
-# ==============================
+class ResultadoNomina:
+    def __init__(self, total_devengado, total_deducciones, neto):
+        self.total_devengado = total_devengado
+        self.total_deducciones = total_deducciones
+        self.neto = neto
 
-def validar_entradas(salario_base, dias_trabajados, dias_incapacidad,
-                     horas_extra, deducciones_adicionales):
-    
-    if salario_base < 0:
-        raise ValueError("El salario no puede ser negativo")
-
-    if dias_trabajados < 0 or dias_incapacidad < 0:
-        raise ValueError("Los días no pueden ser negativos")
-
-    if dias_trabajados > DIAS_PERIODO:
-        raise ValueError("Los días trabajados no pueden superar 30")
-
-    if dias_trabajados + dias_incapacidad > DIAS_PERIODO:
-        raise ValueError("La suma de días trabajados e incapacidad supera el período")
-
-    if horas_extra < 0:
-        raise ValueError("Las horas extra no pueden ser negativas")
-
-    if deducciones_adicionales < 0:
-        raise ValueError("Las deducciones adicionales no pueden ser negativas")
-
-# ==============================
-# FUNCIONES DE CÁLCULO
-# ==============================
-
-def salario_diario(salario_base):
-    return salario_base / DIAS_PERIODO
-
-def calcular_valor_hora_extra(salario_base, tipo_extra):
-    valor_hora = salario_base / (DIAS_PERIODO * HORAS_POR_DIA)
-    if tipo_extra == "D":
-        return valor_hora * RECARGO_DIURNO
-    elif tipo_extra == "N":
-        return valor_hora * RECARGO_NOCTURNO
-    return 0
 
 def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
                     horas_extra, tipo_extra, auxilio,
                     bonificaciones, deducciones_adicionales):
 
-    validar_entradas(
-        salario_base, dias_trabajados,
-        dias_incapacidad, horas_extra,
-        deducciones_adicionales
-    )
+    salario_diario = salario_base / DIAS_PERIODO
+    salario_hora = salario_base / (DIAS_PERIODO * HORAS_POR_DIA)
 
-    s_diario = salario_diario(salario_base)
+    # M
+    pago_dias = salario_diario * dias_trabajados
 
-    pago_dias = s_diario * dias_trabajados
-    pago_incapacidad = s_diario * dias_incapacidad * PORC_INCAPACIDAD
+    # N (66%)
+    pago_incapacidad = salario_diario * dias_incapacidad * PORC_INCAPACIDAD
 
-    valor_extra = calcular_valor_hora_extra(salario_base, tipo_extra)
+    # Valor hora extra
+    if tipo_extra == "D":
+        valor_extra = salario_hora * RECARGO_DIURNO
+    elif tipo_extra == "N":
+        valor_extra = salario_hora * RECARGO_NOCTURNO
+    else:
+        valor_extra = 0
+
+    # P
     total_extras = valor_extra * horas_extra
 
+    # Q
     total_devengado = (
         pago_dias +
         pago_incapacidad +
@@ -77,14 +49,13 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
         bonificaciones
     )
 
-    salud = total_devengado * PORC_SALUD
-    pension = total_devengado * PORC_PENSION
+    # R
+    total_deducciones = (
+        total_devengado * PORC_SALUD +
+        total_devengado * PORC_PENSION +
+        deducciones_adicionales
+    )
 
-    total_deducciones = salud + pension + deducciones_adicionales
     neto = total_devengado - total_deducciones
 
-    return {
-        "Total Devengado": total_devengado,
-        "Total Deducciones": total_deducciones,
-        "Neto a Pagar": neto
-    }
+    return ResultadoNomina(total_devengado, total_deducciones, neto)
