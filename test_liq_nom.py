@@ -45,12 +45,33 @@ class TestNomina(unittest.TestCase):
         self.assertAlmostEqual(resultado.total_devengado, 1052083.3333, 2)
         self.assertAlmostEqual(resultado.total_deducciones, 84166.6667, 2)
         self.assertAlmostEqual(resultado.neto, 967916.6667, 2)
+
     def test_deducciones_muy_altas(self):
         resultado = calcular_nomina(1500000, 30, 0, 0, "D", 162000, 0, 2000000)
 
         self.assertAlmostEqual(resultado.total_devengado, 1662000.0, 2)
         self.assertAlmostEqual(resultado.total_deducciones, 2132960.0, 2)
         self.assertAlmostEqual(resultado.neto, -470960.0, 2)
+
+    # ==============================
+    # CASOS ERROS
+    # ==============================
+
+    def test_error_dias_mayores_a_30(self):
+        resultado = calcular_nomina(1500000, 35, 3, 5, "D", 162000, 100000, 0)
+        self.assertLessEqual(35, 30, "ERROR: los dias trabajados deben ser maximo 30")
+
+    def test_error_salario_negativo(self):
+        resultado = calcular_nomina(-1500000, 30, 6, 5, "N", 162000, 500000, 0)
+        self.assertGreaterEqual(resultado.total_devengado, 0, "ERROR: el salario no puede ser negativo")
+
+    def test_error_horas_extra_negativas(self):
+        resultado = calcular_nomina(1500000, 30, 4, -4, "D", 162000, 111110, 0)
+        self.assertGreaterEqual(resultado.total_extras, 0, "ERROR: no se pueden descontar horas")
+
+    def test_error_deducciones_exceden_neto(self):
+        resultado = calcular_nomina(1500000, 30, 7, 5, "N", 162000, 5000, 2000000)
+        self.assertGreaterEqual(resultado.neto, 0, "ERROR: Las deduciones son mayores al salario neto")
 
 
 if __name__ == "__main__":
