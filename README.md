@@ -4,8 +4,11 @@ Proyecto académico en Python para la materia Código Limpio.
 La aplicación liquida la nómina de un trabajador dependiente en Colombia, calculando devengados, deducciones legales y el valor neto a pagar, incorporando reglas básicas de incapacidades y validaciones.
 ## Autores 
 -Manolo Restrepo Gil
+
 -Juan David Idarraga Porras
+
 -Hans Schoonewolff Otero
+
 ## ENTRADAS DEL SISTEMA
 - Salario base mensual
 - Días del periodo (por defecto 30)
