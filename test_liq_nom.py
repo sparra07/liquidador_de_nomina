@@ -1,5 +1,6 @@
 import unittest
-from logica_liq_nom import calcular_nomina, ResultadoNomina
+from logica_liq_nom import calcular_nomina
+import logica_liq_nom
 
 class TestNomina(unittest.TestCase):
 
@@ -47,32 +48,44 @@ class TestNomina(unittest.TestCase):
         self.assertAlmostEqual(resultado.neto, 967916.6667, 2)
 
     def test_deducciones_muy_altas(self):
-        resultado = calcular_nomina(1500000, 30, 0, 0, "D", 162000, 0, 2000000)
+        resultado = calcular_nomina(2500000, 30, 0, 0, "D", 162000, 0, 2000000)
 
-        self.assertAlmostEqual(resultado.total_devengado, 1662000.0, 2)
-        self.assertAlmostEqual(resultado.total_deducciones, 2132960.0, 2)
-        self.assertAlmostEqual(resultado.neto, -470960.0, 2)
+        self.assertAlmostEqual(resultado.total_devengado, 2662000.0, 2)
+        self.assertAlmostEqual(resultado.total_deducciones, 2212960.0, 2)
+        self.assertAlmostEqual(resultado.neto, 449040.0, 2)
 
     # ==============================
     # CASOS ERROS
     # ==============================
 
-    def test_error_dias_mayores_a_30(self):
-        resultado = calcular_nomina(1500000, 35, 3, 5, "D", 162000, 100000, 0)
-        self.assertLessEqual(35, 30, "ERROR: los dias trabajados deben ser maximo 30")
+    def test_salario_base_negativo(self):
 
-    def test_error_salario_negativo(self):
-        resultado = calcular_nomina(-1500000, 30, 6, 5, "N", 162000, 500000, 0)
-        self.assertGreaterEqual(resultado.total_devengado, 0, "ERROR: el salario no puede ser negativo")
+        with self.assertRaises(logica_liq_nom.SalarioBaseError):
+            logica_liq_nom.calcular_nomina(
+                -1500000, 30, 0, 0, "D", 0, 0, 0
+            )
+    
+    def test_dias_mayores_a_30(self):
 
-    def test_error_horas_extra_negativas(self):
-        resultado = calcular_nomina(1500000, 30, 4, -4, "D", 162000, 111110, 0)
-        self.assertGreaterEqual(resultado.total_extras, 0, "ERROR: no se pueden descontar horas")
+        with self.assertRaises(logica_liq_nom.MuchosDias):
+            logica_liq_nom.calcular_nomina(
+                1500000, 35, 0, 0, "D", 0, 0, 0
+            )
 
-    def test_error_deducciones_exceden_neto(self):
-        resultado = calcular_nomina(1500000, 30, 7, 5, "N", 162000, 5000, 2000000)
-        self.assertGreaterEqual(resultado.neto, 0, "ERROR: Las deduciones son mayores al salario neto")
+    def test_horas_extra_negativas(self):
 
+        with self.assertRaises(logica_liq_nom.HorasExtraError):
+            logica_liq_nom.calcular_nomina(
+            1500000, 30, 0, -5, "D", 0, 0, 0
+        )
+
+    def test_deducciones_exceden_total(self):
+
+        with self.assertRaises(logica_liq_nom.DeduccionesExcedenNetoError):
+            logica_liq_nom.calcular_nomina(
+            1500000, 30, 0, 0, "D", 162000, 0, 2000000
+        )
+    
 
 if __name__ == "__main__":
     unittest.main()
