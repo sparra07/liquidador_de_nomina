@@ -8,8 +8,14 @@ PORC_INCAPACIDAD = 0.66
 PORC_SALUD = 0.04
 PORC_PENSION = 0.04
 
-class Deducciones_altas(Exception):
-    "Exepcion que se dispara cuando las deducciones son mayores al devengado"
+class MuchosDias(Exception):
+    """se dispara cuando los dias trabajados son mayores a 30 """
+class DiasTrabajadosError(Exception): 
+    """se dispara cuando el salario neto es negativo"""
+class HorasExtraError(Exception):         
+    """se dispara cuando las horas extra son negativas"""
+class DeduccionesExcedenNetoError(Exception):
+        """se dispara cuando las deducciones son mayores al salario neto""" 
 
 class ResultadoNomina:
     def __init__(self, total_devengado, total_deducciones, neto):
@@ -42,6 +48,14 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
     # P
     total_extras = valor_extra * horas_extra
 
+    if horas_extra < 0:
+        raise HorasExtraError("ERROR: No se pueden descontar horas extra")
+    if dias_trabajados > 30:
+        raise MuchosDias("ERROR: los dias trabajados deben ser maximo 30")
+    if total_deducciones > total_devengado:
+        raise DeduccionesExcedenNetoError("ERROR: Las deduciones son mayores al salario neto")
+    if salario_base < 0:
+        raise DiasTrabajadosError("ERROR: el salario base no puede ser negativo")
     # Q
     total_devengado = (
         pago_dias +
@@ -57,9 +71,6 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
         total_devengado * PORC_PENSION +
         deducciones_adicionales
     )
-
-    #if total_deducciones > total_devengado:
-        #raise Deducciones_altas("El total de deducciones es mayor al total devengado")
 
     neto = total_devengado - total_deducciones
 
