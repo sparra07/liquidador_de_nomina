@@ -101,7 +101,7 @@ class NominaCalculator:
             valor_extra = 0
 
         total_extras = valor_extra * nomina.horas_extra
-
+        # D=DIURNO , N=NOCTURNO 
         # Total devengado
         total_devengado = (
             pago_dias +
