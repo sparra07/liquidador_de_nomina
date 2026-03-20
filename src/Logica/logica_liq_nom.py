@@ -1,4 +1,3 @@
-
 # Constantes
 DIAS_trabajados = 30
 horas_por_dia = 8
@@ -87,17 +86,17 @@ class NominaCalculator:
         NominaCalculator.check_horas_extra(nomina.horas_extra)
 
         # ===== CÁLCULOS =====
-        salario_diario = nomina.salario_base / DIAS_PERIODO
-        salario_hora = nomina.salario_base / (DIAS_PERIODO * HORAS_POR_DIA)
+        salario_diario = nomina.salario_base / DIAS_trabajados
+        salario_hora = nomina.salario_base / (DIAS_trabajados * horas_por_dia)
 
         pago_dias = salario_diario * nomina.dias_trabajados
-        pago_incapacidad = salario_diario * nomina.dias_incapacidad * PORC_INCAPACIDAD
+        pago_incapacidad = salario_diario * nomina.dias_incapacidad * porcentaje_incapacidad
 
         # Horas extra
         if nomina.tipo_extra == "D":
-            valor_extra = salario_hora * RECARGO_DIURNO
+            valor_extra = salario_hora * recargo_diurno
         elif nomina.tipo_extra == "N":
-            valor_extra = salario_hora * RECARGO_NOCTURNO
+            valor_extra = salario_hora * recargo_nocturno
         else:
             valor_extra = 0
 
@@ -114,8 +113,8 @@ class NominaCalculator:
 
         # Deducciones
         total_deducciones = (
-            total_devengado * PORC_SALUD +
-            total_devengado * PORC_PENSION +
+            total_devengado * porcentaje_salud +
+            total_devengado * Pporcentaje_pension +
             nomina.deducciones_adicionales
         )
 
@@ -135,7 +134,7 @@ class NominaCalculator:
             raise SalarioBaseError()
 
     def check_dias(dias):
-        if dias > DIAS_PERIODO:
+        if dias > DIAS_trabajados:
             raise MuchosDias()
 
     def check_horas_extra(horas):
