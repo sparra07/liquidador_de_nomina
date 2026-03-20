@@ -4,9 +4,9 @@ horas_por_dia = 8
 recargo_diurno = 1.25
 recargo_nocturno = 1.75
 
-PORCENTAJE_INCAPACIDAD = 0.66
-PORCENTAJE_SALUD = 0.04
-PORCENTAJE_PENSION = 0.04
+porcentaje_incapacidad = 0.66
+porcentaje_salud = 0.04
+porcentaje_pension = 0.04
 
 
 class MuchosDias(Exception):
@@ -55,7 +55,7 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
     salario_hora = salario_base / (DIAS_trabajados * HORAS_POR_DIA)
 
     pago_dias = salario_diario * DIAS_trabajados
-    pago_incapacidad = salario_diario * dias_incapacidad * PORCENTAJE_INCAPACIDAD
+    pago_incapacidad = salario_diario * dias_incapacidad * porcentaje_incapacidad
 
     # ===== HORAS EXTRA =====
     if tipo_extra == "D":
@@ -79,8 +79,8 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
 
     # ===== TOTAL DEDUCCIONES =====
     total_deducciones = (
-        total_devengado * PORCENTAJE_SALUD +
-        total_devengado * PORCENTAJE_PENSION +
+        total_devengado * porcentaje_salud +
+        total_devengado * porcentaje_pension +
         deducciones_adicionales
     )
 
