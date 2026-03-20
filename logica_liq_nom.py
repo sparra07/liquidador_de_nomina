@@ -66,7 +66,8 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
         valor_extra = 0
 
     total_extras = valor_extra * horas_extra
-
+#D = DIURNA  , N = NOCTURNA
+                        
     # ===== TOTAL DEVENGADO =====
     total_devengado = (
         pago_dias +
