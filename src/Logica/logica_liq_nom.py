@@ -114,7 +114,7 @@ class NominaCalculator:
         # Deducciones
         total_deducciones = (
             total_devengado * porcentaje_salud +
-            total_devengado * Pporcentaje_pension +
+            total_devengado * Porcentaje_pension +
             nomina.deducciones_adicionales
         )
 
