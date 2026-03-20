@@ -1,4 +1,4 @@
-dias_periodo = 30
+dias_trabajados = 30
 horas_por_dia = 8
 
 recargo_diurno = 1.25
