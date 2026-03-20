@@ -1,4 +1,4 @@
-dias_trabajados = 30
+DIAS_trabajados = 30
 horas_por_dia = 8
 
 recargo_diurno = 1.25
@@ -44,17 +44,17 @@ def calcular_nomina(salario_base, dias_trabajados, dias_incapacidad,
     if salario_base < 0:
         raise SalarioBaseError("ERROR: El salario base no puede ser negativo")
 
-    if dias_trabajados > DIAS_PERIODO:
+    if dias_trabajados > DIAS_trabajados:
         raise MuchosDias("ERROR: Los días trabajados deben ser máximo 30")
 
     if horas_extra < 0:
         raise HorasExtraError("ERROR: Las horas extra no pueden ser negativas")
 
     # ===== CÁLCULOS BASE =====
-    salario_diario = salario_base / DIAS_PERIODO
-    salario_hora = salario_base / (DIAS_PERIODO * HORAS_POR_DIA)
+    salario_diario = salario_base / DIAS_trabajados
+    salario_hora = salario_base / (DIAS_trabajados * HORAS_POR_DIA)
 
-    pago_dias = salario_diario * dias_trabajados
+    pago_dias = salario_diario * DIAS_trabajados
     pago_incapacidad = salario_diario * dias_incapacidad * PORCENTAJE_INCAPACIDAD
 
     # ===== HORAS EXTRA =====
