@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 
 # Constantes
 DIAS_trabajados = 30
