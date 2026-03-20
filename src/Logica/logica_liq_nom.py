@@ -8,7 +8,7 @@ recargo_nocturno = 1.75
 
 porcentaje_incapacidad = 0.66
 porcentaje_salud = 0.04
-Pporcentaje_pension = 0.04
+Porcentaje_pension = 0.04
 
 
 # ===== EXCEPCIONES =====
