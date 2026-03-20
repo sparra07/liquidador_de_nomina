@@ -5,7 +5,7 @@ La aplicación permite liquidar la nómina de un trabajador dependiente en Colom
 
 ---
 
-##  Autores
+##  Autores
 
 * Manolo Restrepo Gil
 * Juan David Idarraga Porras
@@ -13,39 +13,59 @@ La aplicación permite liquidar la nómina de un trabajador dependiente en Colom
 
 ---
 
-##  Requisitos
+##  Requisitos
 
 * Python 3.x instalado en el sistema
 
 ---
 
-##  Instalación y ejecución
+## Ejecución de la aplicación (Interfaz de Consola)
 
 Siga los siguientes pasos para ejecutar el proyecto:
 
 1. Clonar el repositorio:
 
-   ```bash
-   git clone https://github.com/usuario/repositorio.git
-   ```
+```bash
+git clone https://github.com/usuario/repositorio.git
+```
 
 2. Ingresar al directorio del proyecto:
 
-   ```bash
-   cd liquidador_de_nomina
-   ```
+```bash
+cd liquidador_de_nomina
+```
 
-3. Ejecutar la aplicación:
+3. Ejecutar la aplicación en consola:
 
-   ```bash
-   python main.py
-   ```
+```bash
+python main.py
+```
 
 > Nota: Si el archivo principal tiene otro nombre, reemplácelo en el comando anterior.
 
 ---
 
-##  Uso de la aplicación
+##  Ejecución de pruebas unitarias
+
+Para ejecutar las pruebas unitarias del proyecto:
+
+1. Asegúrese de estar en la carpeta del proyecto.
+
+2. Ejecute el siguiente comando:
+
+```bash
+python -m unittest
+```
+
+> Nota: Si las pruebas están organizadas en una carpeta (por ejemplo, `tests/`), utilice:
+
+```bash
+python -m unittest discover
+```
+
+---
+
+## Uso de la aplicación
 
 Al ejecutar el programa, el sistema solicitará los datos necesarios para realizar la liquidación de la nómina.
 
@@ -69,9 +89,7 @@ Una vez ingresados los datos, el sistema procesará la información automáticam
 
 ---
 
-##  Ejemplo de ejecución
-
-Ejemplo de interacción con el programa:
+##  Ejemplo de ejecución
 
 ```text
 Ingrese salario base: 1300000
@@ -85,8 +103,6 @@ Ingrese bonificaciones: 0
 Ingrese deducciones adicionales: 0
 ```
 
-Salida esperada:
-
 ```text
 Total devengado: $1.450.000
 Total deducciones: $116.000
@@ -95,7 +111,23 @@ Neto a pagar: $1.334.000
 
 ---
 
-##  Entradas del sistema
+##  Parámetros del sistema
+
+```python
+dias_periodo = 30
+horas_por_dia = 8
+
+recargo_diurno = 1.25
+recargo_nocturno = 1.75
+
+porc_incapacidad = 0.66
+porc_salud = 0.04
+porc_pension = 0.04
+```
+
+---
+
+##  Entradas del sistema
 
 * Salario base mensual
 * Días del periodo (por defecto 30)
@@ -109,7 +141,7 @@ Neto a pagar: $1.334.000
 
 ---
 
-##  Procesos
+##  Procesos
 
 ### 1. Cálculo del salario proporcional
 
@@ -143,7 +175,7 @@ Neto a pagar: $1.334.000
 
 ---
 
-##  Salidas
+##  Salidas
 
 * Total devengado
 * Total deducciones
@@ -151,13 +183,13 @@ Neto a pagar: $1.334.000
 
 ---
 
-##  Consideraciones
+##  Consideraciones
 
 * Los días de incapacidad no pueden superar los días del periodo.
 * El auxilio de transporte solo aplica para salarios hasta 2 SMMLV.
 * El fondo de solidaridad aplica únicamente para salarios superiores a 4 SMMLV.
 
----
+
 
 
 
