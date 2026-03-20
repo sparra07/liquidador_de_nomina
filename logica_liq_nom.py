@@ -1,12 +1,12 @@
-DIAS_PERIODO = 30
-HORAS_POR_DIA = 8
+dias_periodo = 30
+horas_por_dia = 8
 
-RECARGO_DIURNO = 1.25
-RECARGO_NOCTURNO = 1.75
+recargo_diurno = 1.25
+recargo_nocturno = 1.75
 
-PORC_INCAPACIDAD = 0.66
-PORC_SALUD = 0.04
-PORC_PENSION = 0.04
+porc_incapacidad = 0.66
+porc_salud = 0.04
+porc_pension = 0.04
 
 
 class MuchosDias(Exception):
