@@ -93,6 +93,10 @@ class NominaCalculator:
         pago_incapacidad = salario_diario * nomina.dias_incapacidad * porcentaje_incapacidad
 
         # Horas extra
+        """
+        Tipo de hora extra diurna = D
+        tipo de hora extra nocturna = N
+        """
         if nomina.tipo_extra == "D":
             valor_extra = salario_hora * recargo_diurno
         elif nomina.tipo_extra == "N":
@@ -101,7 +105,7 @@ class NominaCalculator:
             valor_extra = 0
 
         total_extras = valor_extra * nomina.horas_extra
-        # D=DIURNO , N=NOCTURNO 
+        
         # Total devengado
         total_devengado = (
             pago_dias +
