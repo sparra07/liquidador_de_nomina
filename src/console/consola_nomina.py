@@ -1,4 +1,4 @@
-import src.model.logica_liq_nom as logica_liq_nom
+import Logica.logica_liq_nom as logica_liq_nom
 
 """
 Interfaz de usuario para el cálculo de nómina.
