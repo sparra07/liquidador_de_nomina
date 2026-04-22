@@ -62,7 +62,6 @@ class NominaApp(App):
         self.contenedor.add_widget(txt_input)
 
     def calcular(self, instance):
-        # Ojo: si dejas un campo vacío, aquí dará error. Asegúrate de que tengan '0'.
         datos = Nomina(
             salario_base=float(self.salario_base.text),
             dias_trabajados=int(self.dias_trabajados.text),
