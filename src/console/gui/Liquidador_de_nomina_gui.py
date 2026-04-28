@@ -65,7 +65,7 @@ class NominaApp(App):
 
     def calcular(self, instance):
         try:
-            datos = Nomina(
+            datos_nomina = Nomina(
                 salario_base=float(self.salario_base.text),
                 dias_trabajados=int(self.dias_trabajados.text),
                 dias_incapacidad=int(self.dias_incapacidad.text),
@@ -76,11 +76,12 @@ class NominaApp(App):
                 deducciones_adicionales=float(self.deducciones_adicionales.text)
                 )
 
-            result = NominaCalculator.calcular_nomina(datos)
+            result = NominaCalculator.calcular_nomina(datos_nomina)
             self.resultado_label.text = f"$ {result.neto:,.2f}"
 
         except ValueError as e:
             self.mostrar_error("Error: No se puede calcular la liquidacion. \nAsegurece de ingresar valores numéricos válidos" + "\n" + str(e))
+        
         except Exception as e:
             self.mostrar_error("Error: No se pudo calcular la liquidacion. \n" + str(e)) 
 
