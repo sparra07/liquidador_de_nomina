@@ -9,11 +9,13 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.spinner import Spinner  
+from kivy.uix.popup import Popup
 
 from Logica.logica_liq_nom import Nomina, NominaCalculator
 
 class NominaApp(App):
     def build(self):
+        self.title = "Calculadora de Liquidación de Nómina"
         self.contenedor = GridLayout(
             cols=2, 
             padding=[20, 10, 20, 10], 
@@ -62,20 +64,34 @@ class NominaApp(App):
         self.contenedor.add_widget(txt_input)
 
     def calcular(self, instance):
-        # Ojo: si dejas un campo vacío, aquí dará error. Asegúrate de que tengan '0'.
-        datos = Nomina(
-            salario_base=float(self.salario_base.text),
-            dias_trabajados=int(self.dias_trabajados.text),
-            dias_incapacidad=int(self.dias_incapacidad.text),
-            horas_extra=float(self.horas_extra.text),
-            tipo_extra=self.tipo_extra_spinner.text,
-            auxilio=float(self.auxilio.text),
-            bonificaciones=float(self.bonificaciones.text),
-            deducciones_adicionales=float(self.deducciones_adicionales.text)
-        )
+        try:
+            datos = Nomina(
+                salario_base=float(self.salario_base.text),
+                dias_trabajados=int(self.dias_trabajados.text),
+                dias_incapacidad=int(self.dias_incapacidad.text),
+                horas_extra=float(self.horas_extra.text),
+                tipo_extra=self.tipo_extra_spinner.text,
+                auxilio=float(self.auxilio.text),
+                bonificaciones=float(self.bonificaciones.text),
+                deducciones_adicionales=float(self.deducciones_adicionales.text)
+                )
 
-        res = NominaCalculator.calcular_nomina(datos)
-        self.resultado_label.text = f"$ {res.neto:,.2f}"
+            result = NominaCalculator.calcular_nomina(datos)
+            self.resultado_label.text = f"$ {result.neto:,.2f}"
+
+        except ValueError as e:
+            self.mostrar_error("Error: No se puede calcular la liquidacion. \nAsegurece de ingresar valores numéricos válidos" + "\n" + str(e))
+        except Exception as e:
+            self.mostrar_error("Error: No se pudo calcular la liquidacion. \n" + str(e)) 
+
+    def mostrar_error(self, err):
+        contenido = GridLayout(cols=1,)
+        contenido.add_widget(Label(text=str(err), font_size=18))
+        cerrar= Button(text="Cerrar", size_hint=(1, 0.3), font_size=18)
+        contenido.add_widget(cerrar)
+        popup = Popup(title="Error", content=contenido, size_hint=(0.8, 0.4))
+        cerrar.bind(on_press=popup.dismiss)
+        popup.open()
 
 if __name__ == "__main__":
     NominaApp().run()
